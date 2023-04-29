@@ -11,12 +11,13 @@ const { makeTransfer } = require('../controllers/transfersController');
 const { generateStatement } = require('../controllers/statementController');
 const checkBankPassword = require('../middlewares/checkBankPassword');
 const validateFields = require('../middlewares/validateFields');
-
+const validateAccountCreationFields = require('../middlewares/createAccountValidation');
 
 const routes = express.Router()
+
 routes.get('/', (req, res) => res.send('Página Inicial'))
 routes.get('/contas', checkBankPassword, getAllAccounts)
-routes.post('/contas', createAccount)
+routes.post('/contas', validateAccountCreationFields, createAccount)
 routes.put('/contas/:numeroConta/usuario', updateAccount)
 routes.delete('/contas/:numeroConta', deleteAccount)
 routes.post('/contas/:numeroConta/saque', makeWithdrawal)
