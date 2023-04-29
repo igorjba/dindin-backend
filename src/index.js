@@ -1,3 +1,3 @@
-const app = require('./config/servidor');
+const app = require('./config/server');
 
 app.listen(3000);

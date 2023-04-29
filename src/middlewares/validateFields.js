@@ -1,7 +1,7 @@
 const validateFields = (req, res, next) => {
-    const { usuario } = req.body;
+    const { user } = req.body;
 
-    if (!usuario) {
+    if (!user) {
         return res.status(400).json({ mensagem: 'O campo usuário é obrigatório' });
     }
 

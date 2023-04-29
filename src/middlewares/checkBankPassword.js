@@ -1,7 +1,11 @@
 const checkBankPassword = (req, res, next) => {
-    const { bankPassword } = req.headers;
+    const { senha_banco } = req.query;
 
-    if (bankPassword !== '123') {
+    if (!senha_banco) {
+        return res.status(400).json({ mensagem: 'O campo senha é obrigatório' });
+    }
+
+    if (senha_banco !== "123") {
         return res.status(401).json({ mensagem: 'Senha do banco inválida' });
     }
 
