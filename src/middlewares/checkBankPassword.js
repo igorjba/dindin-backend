@@ -1,6 +1,7 @@
 const checkBankPassword = (req, res, next) => {
     const { senha_banco } = req.query;
 
+
     if (!senha_banco) {
         return res.status(400).json({ mensagem: 'O campo senha é obrigatório' });
     }
