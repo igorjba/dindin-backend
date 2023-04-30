@@ -1,10 +1,8 @@
 const express = require('express');
-const {
-    getAllAccounts,
-    createAccount,
-    updateAccount,
-    deleteAccount
-} = require('../controllers/accountsController');
+const { getAllAccounts } = require('../controllers/listAccounts');
+const { createAccount } = require('../controllers/createAccount');
+const { updateAccount } = require('../controllers/updateAccount');
+const { deleteAccount } = require('../controllers/deleteAccount');
 const { makeWithdrawal } = require('../controllers/withdrawalsController');
 const { makeDeposit } = require('../controllers/depositController');
 const { makeTransfer } = require('../controllers/transfersController');
