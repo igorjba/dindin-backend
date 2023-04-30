@@ -1,13 +1,13 @@
 const database = require("../data/database");
 
 const validateAccountUpdateFields = (req, res, next) => {
-    const { number } = req.params;
+    const { numeroConta } = req.params;
     const { name, cpf, birthdate, phone, email, password } = req.body;
     const { accounts } = database;
 
-    const account = accounts.find(account => account.number === Number(number));
+    const accountByNumber = accounts.find(account => account.number === Number(numeroConta));
 
-    if (!account) {
+    if (!accountByNumber) {
         return res.status(404).json({ mensagem: 'Conta não encontrada' });
     }
 

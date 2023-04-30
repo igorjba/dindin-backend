@@ -3,7 +3,7 @@ const database = require("../data/database");
 const updateAccount = (req, res) => {
     const { number } = req.params;
     const { name, cpf, birthdate, phone, email, password } = req.body;
-    const { accounts } = database;
+    const accounts = database.accounts;
 
     const account = accounts.find(account => account.number === Number(number));
 
