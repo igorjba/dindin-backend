@@ -15,7 +15,7 @@ const makeTransfer = (req, res) => {
 
     transfers.push(transferInfo);
 
-    return res.status(200).json(transferInfo);
+    return res.status(200).json({ mensagem: "Transferência realizada com sucesso!" });
 }
 
 module.exports = {

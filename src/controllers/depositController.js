@@ -13,7 +13,7 @@ const makeDeposit = (req, res) => {
 
     deposits.push(depositInfo);
 
-    return res.status(200).json(depositInfo);
+    return res.status(200).json({ mensagem: "Depósito realizado com sucesso!" });
 }
 
 module.exports = {
