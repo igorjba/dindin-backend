@@ -11,18 +11,20 @@ const checkBankPassword = require('../middlewares/checkBankPassword');
 const validateAccountCreationFields = require('../middlewares/createAccountValidation');
 const validateAccountUpdateFields = require('../middlewares/updateAccountValidation');
 const validateDepositFields = require('../middlewares/depositValidation');
+const validateTransferFields = require('../middlewares/transferValidation');
+const validateStatementFields = require('../middlewares/statementValidation');
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.get('/', (req, res) => res.send('Página Inicial'))
-routes.get('/contas', checkBankPassword, getAllAccounts)
-routes.post('/contas', validateAccountCreationFields, createAccount)
-routes.put('/contas/:numeroConta/usuario', validateAccountUpdateFields, updateAccount)
-routes.delete('/contas/:numeroConta', deleteAccount)
-routes.post('/transacoes/sacar', makeWithdrawal)
-routes.post('/transacoes/depositar', validateDepositFields, makeDeposit)
-routes.post('/transacoes/transferir', makeTransfer)
-routes.get('/contas/extrato', generateStatement)
+routes.get('/', (req, res) => res.send('Página Inicial'));
+routes.get('/contas', checkBankPassword, getAllAccounts);
+routes.post('/contas', validateAccountCreationFields, createAccount);
+routes.put('/contas/:numeroConta/usuario', validateAccountUpdateFields, updateAccount);
+routes.delete('/contas/:numeroConta', deleteAccount);
+routes.post('/transacoes/sacar', makeWithdrawal);
+routes.post('/transacoes/depositar', validateDepositFields, makeDeposit);
+routes.post('/transacoes/transferir', validateTransferFields, makeTransfer);
+routes.get('/contas/extrato', validateStatementFields, generateStatement);
 
 
 module.exports = routes;
