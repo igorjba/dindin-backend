@@ -10,6 +10,7 @@ const { generateStatement } = require('../controllers/statementController');
 const checkBankPassword = require('../middlewares/checkBankPassword');
 const validateAccountCreationFields = require('../middlewares/createAccountValidation');
 const validateAccountUpdateFields = require('../middlewares/updateAccountValidation');
+const validateDepositFields = require('../middlewares/depositValidation');
 
 const routes = express.Router()
 
@@ -19,7 +20,7 @@ routes.post('/contas', validateAccountCreationFields, createAccount)
 routes.put('/contas/:numeroConta/usuario', validateAccountUpdateFields, updateAccount)
 routes.delete('/contas/:numeroConta', deleteAccount)
 routes.post('/transacoes/sacar', makeWithdrawal)
-routes.post('/transacoes/depositar', makeDeposit)
+routes.post('/transacoes/depositar', validateDepositFields, makeDeposit)
 routes.post('/transacoes/transferir', makeTransfer)
 routes.get('/contas/extrato', generateStatement)
 
