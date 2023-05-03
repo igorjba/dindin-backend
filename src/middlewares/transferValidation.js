@@ -1,10 +1,10 @@
 const database = require("../data/database");
 
 const validateTransferFields = (req, res, next) => {
-    const { accountNumberFrom, accountPasswordFrom, accountNumberTo, amount } = req.body;
+    const { accountNumberFrom, password, accountNumberTo, amount } = req.body;
     const accounts = database.accounts;
 
-    if (!accountNumberFrom || !accountPasswordFrom || !accountNumberTo || !amount) {
+    if (!accountNumberFrom || !password || !accountNumberTo || !amount) {
         return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
     }
 
@@ -22,7 +22,7 @@ const validateTransferFields = (req, res, next) => {
         return res.status(400).json({ mensagem: 'Saldo insuficiente' });
     }
 
-    if (accountFrom.user.password != accountPasswordFrom) {
+    if (accountFrom.user.password != password) {
         return res.status(400).json({ mensagem: 'Senha incorreta' })
     }
 
