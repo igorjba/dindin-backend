@@ -1,114 +1,62 @@
 const database = require("../data/database");
 
-function allFieldsFilled(operation, req, res) {
-    // commented code is refactored code for controllers -- need to replace on due files
-    switch(operation) {
-        case 'create':
-            if (!name || !cpf || !birthdate || !phone || !email || !password) {
-                return res.status(400).json({ mensagem: 'Preencha todos os campos' });
-            }
-            return true;
+function allFieldsFilled(operation, req) {
 
-        case 'delete':
-            if (!accountNumber) {
-                return res.status(400).json({ mensagem: 'Preencha todos os campos' });
-            }
-            return true;
-
-        case 'transfer':
-            if (!accountNumberFrom || !password || !accountNumberTo || !amount) {
-                return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-            }
-            return true;
-        
-            /* if (!validAmount(amount)) {
-                return res.status(400).json({ mensagem: 'O valor para depósito deve ser superior a 0' });
-            }
-        
-            const accountFrom = getAccount(accountNumberFrom);
-            
-            if (!accountExists(accountFrom)) {
-                return res.status(400).json({ mensagem: 'A conta de origem informada não existe' });
-            }
-        
-            if (!enoughBalance(accountFrom, amount)) {
-                return res.status(400).json({ mensagem: 'Saldo insuficiente' });
-            }
-        
-            if (!validPassword(account, password)) {
-                return res.status(400).json({ mensagem: 'Senha incorreta' });
-            }
-        
-            const accountTo = getAccount(accountNumberTo);
-        
-            if (!accountExists(accountTo)) {
-                return res.status(400).json({ mensagem: 'A conta de destino informada não existe' });
-            } */
-
-            break;
-
-        case 'deposit':
-            if (!accountNumber || !amount) {
-                return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-            }
-            return true;
-
-            /* if (!validAmount(amount)) {
-                return res.status(400).json({ mensagem: 'O valor para depósito deve ser superior a 0' });
-            }
-            
-            const account = getAccount(accountNumber);
-        
-            if (!accountExists(account)) {
-                return res.status(400).json({ mensagem: 'A conta informada não existe' });
-            } */
-            break;
-
-        case 'withdraw':
-            if (!accountNumber || !amount || !password) {
-                return res.status(400).json({ mensagem: 'Preencha todos os campos' });
-            }
-            return true;
-        
-/*             const account = getAccount(number);
-        
-            if (!accountExists(account)) {
-                return res.status(400).json({ mensagem: 'Conta não encontrada' });
-            }
-        
-            if (!validPassword(account, password)) {
-                return res.status(400).json({ mensagem: 'Senha incorreta' });
-            } */
-            break;
-
-        case 'statement':
-            if (!accountNumber || !password) {
-                return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-            }
-            return true;
-        
-/*             const account = getAccount(accountNumber);
-            
-            if (!accountExists(account)) {
-                return res.status(400).json({ mensagem: 'A conta informada não existe' });
-            }
-        
-            if (!validPassword(account, password)) {
-                return res.status(400).json({ mensagem: 'Senha incorreta' });
-            } */
-            break;
-
-        case 'balance':
-            const { accountNumber, password } = req.query;
-            if (!accountNumber || !password) {
-                return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-            }
-            return true;
-            break;
-
-        default:
-            break;
+    if (operation ==='create') {
+        const { name, cpf, birthdate, phone, email, password } = req.body;
+        if (!name || !cpf || !birthdate || !phone || !email || !password) return false;
+        return true;
     }
+
+    if (operation ==='transfer') {
+        const { accountNumberFrom, password, accountNumberTo, amount } = req.body;
+        if (!accountNumberFrom || !password || !accountNumberTo || !amount) return false;
+        return true;
+    }
+
+    if (operation ==='deposit') {
+        const { accountNumber, amount } = req.body;
+        if (!accountNumber || !amount) return false;
+        return true;
+    }
+
+    if (operation ==='withdraw') {
+        const { accountNumber, amount, password } = req.body;
+        if (!accountNumber || !amount || !password) return false;
+        return true;
+    }
+
+    if (operation ==='statement') {
+        const { accountNumber, password } = req.query;
+        if (!accountNumber || !password) return false;
+        return true;
+    }
+
+    if (operation ==='balance') {
+        const { accountNumber, password } = req.query;
+        if (!accountNumber || !password) return false;
+        return true;
+    }
+    return;
+}
+
+function translateRequest(req) { // problem with this logic is that it accepts input anywhere as valid
+    const { body, query, params } = req;
+    const requestInfo = { ...body, ...query, ...params };
+
+    const translatedInfo = {
+        name: nome,
+        cpf,
+        birthdate: data_nascimento,
+        phone: telefone,
+        email,
+        password: senha,
+        accountNumber: numero,
+        accountNumberFrom: numero_conta_origem,
+        accountNumberTo: numero_conta_destino,
+        amount: valor,
+    };
+    return translatedInfo;
 }
 
 function getAccount(accountNumber) {
@@ -117,29 +65,29 @@ function getAccount(accountNumber) {
     return account;
 }
 
-function accountExists(account, res) {
-    if (account) return true;
-    return res.status(400).json({ mensagem: 'A conta informada não existe' });
+function accountExists(account) {
+    if (!account) return false;
+    return true;
 }
 
-function validPassword(account, password, res) {
+function validPassword(account, password) {
     if (account.user.password === password) return true;
-    return res.status(400).json({ mensagem: 'Senha incorreta' });
+    return false;
 }
 
-function zeroBalance(account, res) {
+function zeroBalance(account) {
     if (account.balance === 0) return true;
-    return res.status(400).json({ mensagem: 'O saldo deve ser zero para continuar esta operação' });
+    return false;
 }
 
-function enoughBalance(account, amount, res) {
+function enoughBalance(account, amount) {
     if (account.balance >= amount) return true;
-    return res.status(400).json({ mensagem: 'Saldo insuficiente' });
+    return false;
 }
 
-function validAmount(amount, res) {
+function validAmount(amount) {
     if (amount > 0) return true;
-    return res.status(400).json({ mensagem: 'O valor deve ser superior a 0' });
+    return false;
 }
 
 module.exports = {
@@ -149,5 +97,5 @@ module.exports = {
     validPassword,
     zeroBalance,
     enoughBalance,
-    validAmount
+    validAmount,
 };
