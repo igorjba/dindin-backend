@@ -1,8 +1,6 @@
 const { allFieldsFilled, getAccount, accountExists, validPassword } = require('../utils/inputValidation');
 const { allFieldsFilledMessage, accountExistsMessage, validPasswordMessage } = require('../utils/responseMessages');
 
-const database = require("../data/database");
-
 const validateBalanceFields = (req, res, next) => {
     const { accountNumber, password } = req.query;
 

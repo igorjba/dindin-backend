@@ -1,22 +1,16 @@
-const database = require("../data/database");
+const { allFieldsFilled, getAccount, accountExists, validPassword } = require('../utils/inputValidation');
+const { allFieldsFilledMessage, accountExistsMessage, validPasswordMessage } = require('../utils/responseMessages');
 
 const validateStatementFields = (req, res, next) => {
     const { accountNumber, password } = req.query;
-    const { accounts } = database;
 
-    if (!accountNumber || !password) {
-        return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-    }
-
-    const account = accounts.find(account => account.number === accountNumber);
+    if (!allFieldsFilled('statement', req)) return res.status(400).json(allFieldsFilledMessage);
     
-    if (!account) {
-        return res.status(400).json({ mensagem: 'A conta informada não existe' });
-    }
+    const account = getAccount(accountNumber);
+    
+    if (!accountExists(account)) return res.status(400).json(accountExistsMessage);
 
-    if (account.user.password != password) {
-        return res.status(400).json({ mensagem: 'Senha incorreta' })
-    }
+    if (!validPassword(account, password)) return res.status(400).json(validPasswordMessage);
 
     return next();
 }
