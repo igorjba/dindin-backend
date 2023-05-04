@@ -1,22 +1,16 @@
-const database = require("../data/database");
+const { allFieldsFilled, getAccount, accountExists, validAmount } = require('../utils/inputValidation');
+const { allFieldsFilledMessage, accountExistsMessage, validAmountMessage } = require('../utils/responseMessages');
 
 const validateDepositFields = (req, res, next) => {
     const { accountNumber, amount } = req.body;
-    const accounts = database.accounts;
 
-    if (!accountNumber || !amount) {
-        return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-    }
-
-    if (amount <= 0) {
-        return res.status(400).json({ mensagem: 'O valor para depósito deve ser superior a 0' });
-    }
+    if (!allFieldsFilled('deposit', req)) return res.status(400).json(allFieldsFilledMessage);
     
-    const account = accounts.find(account => account.number === accountNumber);
+    const account = getAccount(accountNumber);
+    
+    if (!accountExists(account)) return res.status(400).json(accountExistsMessage);
 
-    if (!account) {
-        return res.status(400).json({ mensagem: 'A conta informada não existe' });
-    }
+    if (!validAmount(amount)) return res.status(400).json(validAmountMessage);
 
     return next();
 }

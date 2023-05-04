@@ -1,16 +1,14 @@
-const database = require("../data/database");
+const { getAccount, accountExists, zeroBalance } = require('../utils/inputValidation');
+const { accountExistsMessage, zeroBalanceMessage } = require('../utils/responseMessages');
 
 const validateAccountDeletionFields = (req, res, next) => {
-    const { numeroConta } = req.params;
-    const { accounts } = database;
+    const { numeroConta: accountNumber } = req.params;
 
-    const accountByNumber = accounts.find(account => Number(account.number) === Number(numeroConta));
+    const account = getAccount(accountNumber);
 
-    if (!accountByNumber) {
-        return res.status(404).json({ mensagem: 'Conta não encontrada' });
-    }
+    if (!accountExists(account)) return res.status(400).json(accountExistsMessage);
 
-    //saldo não pode ser maior que zero
+    if (!zeroBalance(account)) return res.status(400).json(zeroBalanceMessage);
 
     return next();
 

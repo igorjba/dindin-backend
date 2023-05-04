@@ -1,36 +1,24 @@
-const database = require("../data/database");
+const { allFieldsFilled, getAccount, accountExists, validAmount, validPassword, enoughBalance } = require('../utils/inputValidation');
+const { allFieldsFilledMessage, accountExistsMessage, validAmountMessage, validPasswordMessage, enoughBalanceMessage } = require('../utils/responseMessages');
 
 const validateTransferFields = (req, res, next) => {
     const { accountNumberFrom, password, accountNumberTo, amount } = req.body;
-    const accounts = database.accounts;
 
-    if (!accountNumberFrom || !password || !accountNumberTo || !amount) {
-        return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios' });
-    }
-
-    if (amount <= 0) {
-        return res.status(400).json({ mensagem: 'O valor para depósito deve ser superior a 0' });
-    }
-
-    const accountFrom = accounts.find(account => account.number === accountNumberFrom);
+    if (!allFieldsFilled('transfer', req)) return res.status(400).json(allFieldsFilledMessage);
     
-    if (!accountFrom) {
-        return res.status(400).json({ mensagem: 'A conta de origem informada não existe' });
-    }
+    if (!validAmount(amount)) return res.status(400).json(validAmountMessage);
 
-    if (accountFrom.balance < amount) {
-        return res.status(400).json({ mensagem: 'Saldo insuficiente' });
-    }
+    const accountFrom = getAccount(accountNumberFrom);
+    
+    if (!accountExists(accountFrom)) return res.status(400).json(accountExistsMessage);
 
-    if (accountFrom.user.password != password) {
-        return res.status(400).json({ mensagem: 'Senha incorreta' })
-    }
+    if (!enoughBalance(accountFrom, amount)) return res.status(400).json(enoughBalanceMessage);
 
-    const accountTo = accounts.find(account => account.number === accountNumberTo);
+    if (!validPassword(accountFrom, password)) return res.status(400).json(validPasswordMessage);
 
-    if (!accountTo) {
-        return res.status(400).json({ mensagem: 'A conta de destino informada não existe' });
-    }
+    const accountTo = getAccount(accountNumberTo);
+    
+    if (!accountExists(accountTo)) return res.status(400).json(accountExistsMessage);
 
     return next();
 }

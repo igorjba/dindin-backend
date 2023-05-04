@@ -16,15 +16,15 @@ const createAccount = (req, res) => {
     }
 
     const newAccount = {
-        number: `${accounts.length + 1}`,
+        number: `${accounts.length === 0 ? 1 : +accounts[accounts.length-1].number + 1}`,
         balance: 0,
         user: {
-            name: name,
-            cpf: cpf,
-            birthdate: birthdate,
-            phone: phone,
-            email: email,
-            password: password
+            name,
+            cpf,
+            birthdate,
+            phone,
+            email,
+            password
         }
     }
 

@@ -1,17 +1,16 @@
 const { allFieldsFilled, getAccount, accountExists, validPassword } = require('../utils/inputValidation');
-
-const database = require("../data/database");
+const { allFieldsFilledMessage, accountExistsMessage, validPasswordMessage } = require('../utils/responseMessages');
 
 const validateBalanceFields = (req, res, next) => {
     const { accountNumber, password } = req.query;
 
-    allFieldsFilled('balance', req, res);
-
+    if (!allFieldsFilled('balance', req)) return res.status(400).json(allFieldsFilledMessage);
+    
     const account = getAccount(accountNumber);
     
-    accountExists(account, res);
+    if (!accountExists(account)) return res.status(400).json(accountExistsMessage);
 
-    validPassword(account, password, res);
+    if (!validPassword(account, password)) return res.status(400).json(validPasswordMessage);
 
     return next();
 }
