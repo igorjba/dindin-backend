@@ -7,8 +7,6 @@ const updateAccount = (req, res) => {
 
     const accountById = accounts.find(account => Number(account.number) === Number(numeroConta));
 
-    console.log(accounts);
-
     if (name) {
         accountById.user.name = name;
     }
