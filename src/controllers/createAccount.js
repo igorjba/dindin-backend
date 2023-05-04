@@ -16,7 +16,7 @@ const createAccount = (req, res) => {
     }
 
     const newAccount = {
-        number: accounts.length + 1,
+        number: `${accounts.length + 1}`,
         balance: 0,
         user: {
             name: name,

@@ -4,7 +4,7 @@ const makeWithdrawal = (req, res) => {
     const { number, withdrawalAmount } = req.body;
     const { accounts } = database;
 
-    const accountByNumber = accounts.find(account => account.number === Number(number));
+    const accountByNumber = accounts.find(account => Number(account.number) === Number(number));
 
     if (accountByNumber.balance < withdrawalAmount) {
         return res.status(400).json({ mensagem: 'Saldo insuficiente' });

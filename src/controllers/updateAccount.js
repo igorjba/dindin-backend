@@ -1,37 +1,39 @@
 const database = require("../data/database");
 
 const updateAccount = (req, res) => {
-    const { number } = req.params;
+    const { numeroConta } = req.params;
     const { name, cpf, birthdate, phone, email, password } = req.body;
-    const accounts = database.accounts;
+    const { accounts } = database;
 
-    const account = accounts.find(account => account.number === Number(number));
+    const accountById = accounts.find(account => Number(account.number) === Number(numeroConta));
+
+    console.log(accounts);
 
     if (name) {
-        account.user.name = name;
+        accountById.user.name = name;
     }
 
     if (cpf) {
-        account.user.cpf = cpf;
+        accountById.user.cpf = cpf;
     }
 
     if (birthdate) {
-        account.user.birthdate = birthdate;
+        accountById.user.birthdate = birthdate;
     }
 
     if (phone) {
-        account.user.phone = phone;
+        accountById.user.phone = phone;
     }
 
     if (email) {
-        account.user.email = email;
+        accountById.user.email = email;
     }
 
     if (password) {
-        account.user.password = password;
+        accountById.user.password = password;
     }
 
-    return res.json(account);
+    return res.json(accountById);
 }
 
 module.exports = { updateAccount };

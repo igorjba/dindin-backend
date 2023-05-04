@@ -4,7 +4,7 @@ const deleteAccount = (req, res) => {
     const { numeroConta } = req.params;
     const { accounts } = database;
 
-    const accountByNumber = accounts.find(account => account.number === Number(numeroConta));
+    const accountByNumber = accounts.find(account => Number(account.number) === Number(numeroConta));
 
     const index = accounts.indexOf(accountByNumber);
     accounts.splice(index, 1);
