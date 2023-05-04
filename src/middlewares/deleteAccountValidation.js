@@ -1,4 +1,5 @@
-const { getAccount, accountExists, zeroBalance, accountExistsMessage, zeroBalanceMessage } = require('../utils/inputValidation');
+const { getAccount, accountExists, zeroBalance } = require('../utils/inputValidation');
+const { accountExistsMessage, zeroBalanceMessage } = require('../utils/responseMessages');
 
 const validateAccountDeletionFields = (req, res, next) => {
     const { numeroConta: accountNumber } = req.params;
