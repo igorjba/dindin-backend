@@ -1,7 +1,7 @@
 const database = require("../data/database");
 
 const generateStatement = (req, res) => {
-    const { accountNumber } = req.query;
+    const { numero_conta: accountNumber } = req.query;
 
     const deposits = database.deposits.filter( transaction => transaction.accountNumber === accountNumber );
     const withdrawals = database.withdrawals.filter( transaction => transaction.accountNumber === accountNumber );

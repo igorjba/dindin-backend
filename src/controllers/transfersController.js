@@ -2,7 +2,7 @@ const database = require("../data/database");
 const { format } = require('date-fns');
 
 const makeTransfer = (req, res) => {
-    const { accountNumberFrom, accountNumberTo, amount } = req.body;
+    const { numero_conta_origem: accountNumberFrom, numero_conta_destino: accountNumberTo, valor: amount } = req.body;
     const { accounts, transfers } = database;
     const date = format(new Date(), "uuuu-MM-dd HH:mm:ss" );
     const transferInfo = { date, accountNumberFrom, accountNumberTo, amount };

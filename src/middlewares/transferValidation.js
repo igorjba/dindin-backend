@@ -2,7 +2,7 @@ const { allFieldsFilled, getAccount, accountExists, validAmount, validPassword, 
 const { allFieldsFilledMessage, accountExistsMessage, validAmountMessage, validPasswordMessage, enoughBalanceMessage } = require('../utils/responseMessages');
 
 const validateTransferFields = (req, res, next) => {
-    const { accountNumberFrom, password, accountNumberTo, amount } = req.body;
+    const { numero_conta_origem: accountNumberFrom, senha: password, numero_conta_destino: accountNumberTo, valor: amount } = req.body;
 
     if (!allFieldsFilled('transfer', req)) return res.status(400).json(allFieldsFilledMessage);
     

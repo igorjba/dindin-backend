@@ -9,31 +9,31 @@ function allFieldsFilled(operation, req) {
     }
 
     if (operation ==='transfer') {
-        const { accountNumberFrom, password, accountNumberTo, amount } = req.body;
+        const { numero_conta_origem: accountNumberFrom, senha: password, numero_conta_destino: accountNumberTo, valor: amount } = req.body;
         if (!accountNumberFrom || !password || !accountNumberTo || !amount) return false;
         return true;
     }
 
     if (operation ==='deposit') {
-        const { accountNumber, amount } = req.body;
+        const { numero_conta: accountNumber, valor: amount } = req.body;
         if (!accountNumber || !amount) return false;
         return true;
     }
 
     if (operation ==='withdraw') {
-        const { accountNumber, amount, password } = req.body;
+        const { numero_conta: accountNumber, valor: amount, senha: password } = req.body;
         if (!accountNumber || !amount || !password) return false;
         return true;
     }
 
     if (operation ==='statement') {
-        const { accountNumber, password } = req.query;
+        const { numero_conta: accountNumber, senha: password } = req.query;
         if (!accountNumber || !password) return false;
         return true;
     }
 
     if (operation ==='balance') {
-        const { accountNumber, password } = req.query;
+        const { numero_conta: accountNumber, senha: password } = req.query;
         if (!accountNumber || !password) return false;
         return true;
     }

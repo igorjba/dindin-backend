@@ -1,7 +1,7 @@
 const database = require("../data/database");
 
 const checkBalance = (req, res) => {
-    const { accountNumber, password } = req.query;
+    const { numero_conta: accountNumber } = req.query;
     const { accounts } = database;
 
     const account = accounts.find( account => account.number === accountNumber);
