@@ -1,7 +1,7 @@
 const database = require("../data/database");
 
 const createAccount = (req, res) => {
-    const { name, cpf, birthdate, phone, email, password } = req.body;
+    const { nome: name, cpf, data_nascimento: birthdate, telefone: phone, email, senha: password } = req.body;
     const { accounts } = database;
 
     const cpfExists = accounts.find(account => account.user.cpf === cpf);

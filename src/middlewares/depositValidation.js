@@ -2,7 +2,7 @@ const { allFieldsFilled, getAccount, accountExists, validAmount } = require('../
 const { allFieldsFilledMessage, accountExistsMessage, validAmountMessage } = require('../utils/responseMessages');
 
 const validateDepositFields = (req, res, next) => {
-    const { accountNumber, amount } = req.body;
+    const { numero_conta: accountNumber, valor: amount } = req.body;
 
     if (!allFieldsFilled('deposit', req)) return res.status(400).json(allFieldsFilledMessage);
     

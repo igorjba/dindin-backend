@@ -1,8 +1,8 @@
 const database = require("../data/database");
 
 const validateAccountUpdateFields = (req, res, next) => {
-    const { numeroConta, usuario } = req.params;
-    const { name, cpf, birthdate, phone, email, password } = req.body;
+    const { numeroConta } = req.params;
+    const { nome: name, cpf, data_nascimento: birthdate, telefone: phone, email, senha: password } = req.body;
     const { accounts } = database;
 
     const accountById = accounts.find(account => Number(account.number) === Number(numeroConta));

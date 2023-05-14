@@ -1,14 +1,14 @@
 const database = require("../data/database");
 
 const validateWithdrawalFields = (req, res, next) => {
-    const { number, withdrawalAmount, password } = req.body;
+    const { numero_conta: accountNumber, valor: amount, senha: password } = req.body;
     const { accounts } = database;
 
-    if (!number || !withdrawalAmount || !password) {
+    if (!accountNumber || !amount || !password) {
         return res.status(400).json({ mensagem: 'Preencha todos os campos' });
     }
 
-    const accountByNumber = accounts.find(account => account.number === Number(number));
+    const accountByNumber = accounts.find(account => account.number === Number(accountNumber));
 
     if (!accountByNumber) {
         return res.status(404).json({ mensagem: 'Conta não encontrada' });
