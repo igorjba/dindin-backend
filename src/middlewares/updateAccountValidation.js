@@ -1,7 +1,7 @@
 const database = require("../data/database");
 
 const validateAccountUpdateFields = (req, res, next) => {
-    const { numeroConta, usuario } = req.params;
+    const { numeroConta } = req.params;
     const { nome: name, cpf, data_nascimento: birthdate, telefone: phone, email, senha: password } = req.body;
     const { accounts } = database;
 
